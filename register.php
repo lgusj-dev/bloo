@@ -1,34 +1,63 @@
 <?php
 session_start();
+include('db_connect.php');
 
-// Redirect if not logged in
+// ✅ Redirect if not logged in
 if (!isset($_SESSION['id'])) {
     header("Location: login.php");
     exit;
 }
 
-// Redirect if not admin
+// ✅ Redirect if not admin (only ID 1 can access)
 if ($_SESSION['id'] != 1) {
     header("Location: index.php");
     exit;
 }
-?>
 
-// Check if form was submitted
+$error = "";
+$success = "";
+
+// ✅ Handle registration form submission
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Collect and sanitize inputs
-    $fullname = htmlspecialchars($_POST['fullname']);
-    $office = htmlspecialchars($_POST['office']);
-    $email = htmlspecialchars($_POST['email']);
-    $password = htmlspecialchars($_POST['password']);
-    $confirm_password = htmlspecialchars($_POST['confirm_password']);
+    $fullname = htmlspecialchars(trim($_POST['fullname']));
+    $office = htmlspecialchars(trim($_POST['office']));
+    $email = htmlspecialchars(trim($_POST['email']));
+    $password = trim($_POST['password']);
+    $confirm_password = trim($_POST['confirm_password']);
 
-    // Example validation
-    if ($password !== $confirm_password) {
+    // ✅ Validation
+    if (empty($fullname) || empty($office) || empty($email) || empty($password) || empty($confirm_password)) {
+        $error = "All fields are required!";
+    } elseif ($password !== $confirm_password) {
         $error = "Passwords do not match!";
     } else {
-        // TODO: Insert into database (add your DB code here)
-        $success = "Account created successfully!";
+        // ✅ Check if email already exists
+        $check = $conn->prepare("SELECT id FROM users WHERE username = ? LIMIT 1");
+        $check->bind_param("s", $email);
+        $check->execute();
+        $check->store_result();
+
+        if ($check->num_rows > 0) {
+            $error = "Email already exists!";
+        } else {
+            // ✅ Hash password
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+            // ✅ Insert into database
+            $stmt = $conn->prepare("INSERT INTO users (name, office, username, password) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssss", $fullname, $office, $email, $password);
+
+            if ($stmt->execute()) {
+                $success = "Account created successfully!";
+            } else {
+                $error = "Error: Unable to register user.";
+            }
+
+            $stmt->close();
+        }
+
+        $check->close();
     }
 }
 ?>
@@ -39,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Sign up - srtdash</title>
+    <title>Register Account</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon.ico">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -48,7 +77,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <link rel="stylesheet" href="assets/css/metisMenu.css">
     <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
     <link rel="stylesheet" href="assets/css/slicknav.min.css">
-    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
     <link rel="stylesheet" href="assets/css/typography.css">
     <link rel="stylesheet" href="assets/css/default-css.css">
     <link rel="stylesheet" href="assets/css/styles.css">
@@ -66,8 +94,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <div class="login-box ptb--100">
                 <form method="POST" action="">
                     <div class="login-form-head">
-                        <h4>Sign up</h4>
-                        <p>Hello there, Sign up and Join with Us</p>
+                        <h4>Register a New Account</h4>
+                        <p>Only admins can create accounts.</p>
                     </div>
 
                     <div class="login-form-body">
@@ -89,7 +117,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 <option value="">Select Office</option>
                                 <option value="IT Department">IT Department</option>
                                 <option value="Mayor's Office">Mayor's Office</option>
-                                <!-- Add more options here -->
+                                <option value="Accounting">Accounting</option>
+                                <option value="Human Resources">Human Resources</option>
+                                <option value="Planning Office">Planning Office</option>
                             </select>
                         </div>
 
@@ -112,11 +142,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         </div>
 
                         <div class="submit-btn-area">
-                            <button id="form_submit" type="submit">Submit <i class="ti-arrow-right"></i></button>
+                            <button id="form_submit" type="submit">Register <i class="ti-arrow-right"></i></button>
                         </div>
 
                         <div class="form-footer text-center mt-5">
-                            <p class="text-muted">Already have an account? <a href="login.php">Sign in</a></p>
+                            <p class="text-muted"><a href="testing.php">← Back to Home</a></p>
                         </div>
                     </div>
                 </form>
