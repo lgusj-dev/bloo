@@ -61,7 +61,7 @@ $sell_orders = [
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Dashboard - Welcome</title>
+    <title>Home - Welcome</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon.ico">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -91,7 +91,7 @@ $sell_orders = [
                     <nav>
                         <ul class="metismenu" id="menu">
                             <li class="active">
-                                <a href="index.php" aria-expanded="true"><i class="ti-home"></i><span>Dashboard</span></a>
+                                <a href="index.php" aria-expanded="true"><i class="ti-home"></i><span>Home</span></a>
                             </li>
                             <li>
                                 <a href="test.php" aria-expanded="true"><i class="ti-upload"></i><span>File Upload</span></a>
@@ -150,7 +150,7 @@ $sell_orders = [
                 <div class="row align-items-center">
                     <div class="col-sm-6">
                         <div class="breadcrumbs-area clearfix">
-                            <h4 class="page-title pull-left">Dashboard</h4>
+                            <h4 class="page-title pull-left">Home</h4>
                             <ul class="breadcrumbs pull-left">
                                 <li><a href="index.php">Home</a></li>
                                 <li><span>Welcome</span></li>

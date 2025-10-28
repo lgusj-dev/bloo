@@ -88,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_file'])) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>File Upload - Dashboard</title>
+<title>File Upload - Upload File</title>
 <link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon.ico">
 <link rel="stylesheet" href="assets/css/bootstrap.min.css">
 <link rel="stylesheet" href="assets/css/font-awesome.min.css">
@@ -167,9 +167,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_file'])) {
                 <div class="row align-items-center">
                     <div class="col-sm-6">
                         <div class="breadcrumbs-area clearfix">
-                            <h4 class="page-title pull-left">Dashboard</h4>
+                            <h4 class="page-title pull-left">Upload File</h4>
                             <ul class="breadcrumbs pull-left">
-                                <li><a href="index.php">Home</a></li>
+                                <li><a href="index.php">Upload File</a></li>
                                 <li><span>Welcome</span></li>
                             </ul>
                         </div>
