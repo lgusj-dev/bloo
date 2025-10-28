@@ -160,7 +160,42 @@ $sell_orders = [
                     <div class="col-sm-6 clearfix">
                         <div class="user-profile pull-right">
                             <img class="avatar user-thumb" src="assets/images/author/avatar.png" alt="avatar">
-                            <h4 class="user-name dropdown-toggle" data-toggle="dropdown"><?php echo htmlspecialchars($username); ?> <i class="fa fa-angle-down"></i></h4>
+                            <?php
+                            // default to session username if DB lookup fails
+                            $display_name = htmlspecialchars($username);
+
+                            // Try common DB connection variables: $conn (mysqli), $mysqli (mysqli), $pdo (PDO)
+                            if (isset($conn) && $conn instanceof mysqli) {
+                                if ($stmt = $conn->prepare("SELECT name FROM users WHERE username = ? LIMIT 1")) {
+                                    $stmt->bind_param("s", $username);
+                                    $stmt->execute();
+                                    $stmt->bind_result($db_name);
+                                    if ($stmt->fetch() && $db_name) {
+                                        $display_name = htmlspecialchars($db_name);
+                                    }
+                                    $stmt->close();
+                                }
+                            } elseif (isset($mysqli) && $mysqli instanceof mysqli) {
+                                if ($stmt = $mysqli->prepare("SELECT name FROM users WHERE username = ? LIMIT 1")) {
+                                    $stmt->bind_param("s", $username);
+                                    $stmt->execute();
+                                    $stmt->bind_result($db_name);
+                                    if ($stmt->fetch() && $db_name) {
+                                        $display_name = htmlspecialchars($db_name);
+                                    }
+                                    $stmt->close();
+                                }
+                            } elseif (isset($pdo) && $pdo instanceof PDO) {
+                                $stmt = $pdo->prepare("SELECT name FROM users WHERE username = ? LIMIT 1");
+                                if ($stmt->execute([$username])) {
+                                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                                    if (!empty($row['name'])) {
+                                        $display_name = htmlspecialchars($row['name']);
+                                    }
+                                }
+                            }
+                            ?>
+                            <h4 class="user-name dropdown-toggle" data-toggle="dropdown"><?php echo $display_name; ?> <i class="fa fa-angle-down"></i></h4>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="#">Message</a>
                                 <a class="dropdown-item" href="#">Settings</a>
