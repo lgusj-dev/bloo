@@ -1,5 +1,18 @@
 <?php
-// signup.php
+session_start();
+
+// Redirect if not logged in
+if (!isset($_SESSION['id'])) {
+    header("Location: login.php");
+    exit;
+}
+
+// Redirect if not admin
+if ($_SESSION['id'] != 1) {
+    header("Location: index.php");
+    exit;
+}
+?>
 
 // Check if form was submitted
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -70,15 +83,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             <i class="ti-user"></i>
                         </div>
 
-                        <div class="form-gp1">
-                            <label for="exampleInputOffice">Office</label>
+                        <div class="form-gp">
+                            <label for="exampleInputOffice"></label>
                             <select id="exampleInputOffice" name="office" class="form-control" required>
                                 <option value="">Select Office</option>
                                 <option value="IT Department">IT Department</option>
                                 <option value="Mayor's Office">Mayor's Office</option>
                                 <!-- Add more options here -->
                             </select>
-                            <i class="ti-briefcase"></i>
                         </div>
 
                         <div class="form-gp">

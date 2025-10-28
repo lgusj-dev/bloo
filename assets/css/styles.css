@@ -2297,7 +2297,13 @@ table.dataTable thead td {
 
 .login-area {
     background: #F3F8FB;
+    background-image: url('https://media.istockphoto.com/id/1496615445/photo/portrait-of-beautiful-happy-woman-smiling-during-sunset-outdoor.jpg?s=612x612&w=0&k=20&c=nEjFgLbdjElodDFk5Stm0gNyc3zVf1q8dchPQyTWcoM=');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
+
 
 .login-box {
     display: -webkit-box;
@@ -2338,7 +2344,7 @@ table.dataTable thead td {
     padding: 50px;
 }
 
-.form-gp {
+.form-gp{
     margin-bottom: 25px;
     position: relative;
 }

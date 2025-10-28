@@ -9,6 +9,23 @@ if (!isset($_SESSION['username'])) {
 
 $username = $_SESSION['username'];
 
+// Fetch user info from DB to get ID
+$user_id = null;
+if (isset($conn) && $conn instanceof mysqli) {
+    if ($stmt = $conn->prepare("SELECT id FROM users WHERE username = ? LIMIT 1")) {
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $stmt->bind_result($uid);
+        if ($stmt->fetch()) {
+            $user_id = $uid;
+        }
+        $stmt->close();
+    }
+}
+
+// Check if the user is an admin
+$is_admin = ($user_id === 1);
+
 // -------------------- RANDOM GREETINGS --------------------
 $greetings = [
     "Welcome! Let's get started.",
@@ -21,39 +38,6 @@ $greetings = [
 
 // Pick a random greeting
 $greeting_message = $greetings[array_rand($greetings)];
-
-// -------------------- DUMMY DATA (from second code) --------------------
-$market_values = [
-    [
-        'logo' => 'assets/images/icon/market-value/icon1.png',
-        'name' => 'Dashcoin',
-        'buy' => '30%',
-        'sell' => '20%',
-        'trends' => 'up',
-        'attachments' => '$ 56746,857'
-    ],
-    [
-        'logo' => 'assets/images/icon/market-value/icon2.png',
-        'name' => 'LiteCoin',
-        'buy' => '30%',
-        'sell' => '20%',
-        'trends' => 'down',
-        'attachments' => '$ 56746,857'
-    ]
-];
-
-$crypto_prices = [
-    ['icon' => 'b', 'name' => 'Bitcoin', 'price' => '$876909.00', 'arrow' => 'up'],
-    ['icon' => 'l', 'name' => 'Litecoin', 'price' => '$29780.00', 'arrow' => 'up']
-];
-
-$buy_orders = [
-    ['id' => '78211', 'time' => '4.00 AM', 'status' => 'Pending', 'amount' => '$758.90', 'last_trade' => '$05245.090']
-];
-
-$sell_orders = [
-    ['id' => '8964978', 'time' => '4.00 AM', 'status' => 'Pending', 'amount' => '$445.90', 'last_trade' => '$094545.090']
-];
 ?>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -65,7 +49,6 @@ $sell_orders = [
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon.ico">
     <?php
-    // helper to return file mtime for cache-busting. Falls back to current time if file missing.
     function _css_ver($relPath) {
         $full = __DIR__ . DIRECTORY_SEPARATOR . $relPath;
         return (file_exists($full)) ? filemtime($full) : time();
@@ -98,12 +81,17 @@ $sell_orders = [
                     <nav>
                         <ul class="metismenu" id="menu">
                             <li class="active">
-                                <a href="testing.php" aria-expanded="true"><i class="ti-home"></i><span>Home</span></a>
+                                <a href="index.php" aria-expanded="true"><i class="ti-home"></i><span>Home</span></a>
                             </li>
                             <li>
                                 <a href="test.php" aria-expanded="true"><i class="ti-upload"></i><span>Upload File</span></a>
                             </li>
-                            <!-- Keep other sidebar items as in your original code -->
+                            <?php if ($is_admin): ?>
+                            <li>
+                                <a href="register.php" aria-expanded="true"><i class="ti-user"></i><span>Register</span></a>
+                            </li>
+                            <?php endif; ?>
+                            <!-- Add more sidebar items as needed -->
                         </ul>
                     </nav>
                 </div>
@@ -134,14 +122,10 @@ $sell_orders = [
                             <li id="full-view"><i class="ti-fullscreen"></i></li>
                             <li id="full-view-exit"><i class="ti-zoom-out"></i></li>
                             <li class="dropdown">
-                                <i class="ti-bell dropdown-toggle" data-toggle="dropdown">
-                                    <span>2</span>
-                                </i>
-                                <!-- notifications content here -->
+                                <i class="ti-bell dropdown-toggle" data-toggle="dropdown"><span>2</span></i>
                             </li>
                             <li class="dropdown">
                                 <i class="fa fa-envelope-o dropdown-toggle" data-toggle="dropdown"><span>3</span></i>
-                                <!-- messages content here -->
                             </li>
                             <li class="settings-btn">
                                 <i class="ti-settings"></i>
@@ -159,7 +143,7 @@ $sell_orders = [
                         <div class="breadcrumbs-area clearfix">
                             <h4 class="page-title pull-left">Home</h4>
                             <ul class="breadcrumbs pull-left">
-                                <li><a href="testing.php">Home</a></li>
+                                <li><a href="index.php">Home</a></li>
                                 <li><span>Welcome</span></li>
                             </ul>
                         </div>
@@ -168,10 +152,7 @@ $sell_orders = [
                         <div class="user-profile pull-right">
                             <img class="avatar user-thumb" src="assets/images/author/avatar.png" alt="avatar">
                             <?php
-                            // default to session username if DB lookup fails
                             $display_name = htmlspecialchars($username);
-
-                            // Try common DB connection variables: $conn (mysqli), $mysqli (mysqli), $pdo (PDO)
                             if (isset($conn) && $conn instanceof mysqli) {
                                 if ($stmt = $conn->prepare("SELECT name FROM users WHERE username = ? LIMIT 1")) {
                                     $stmt->bind_param("s", $username);
@@ -181,24 +162,6 @@ $sell_orders = [
                                         $display_name = htmlspecialchars($db_name);
                                     }
                                     $stmt->close();
-                                }
-                            } elseif (isset($mysqli) && $mysqli instanceof mysqli) {
-                                if ($stmt = $mysqli->prepare("SELECT name FROM users WHERE username = ? LIMIT 1")) {
-                                    $stmt->bind_param("s", $username);
-                                    $stmt->execute();
-                                    $stmt->bind_result($db_name);
-                                    if ($stmt->fetch() && $db_name) {
-                                        $display_name = htmlspecialchars($db_name);
-                                    }
-                                    $stmt->close();
-                                }
-                            } elseif (isset($pdo) && $pdo instanceof PDO) {
-                                $stmt = $pdo->prepare("SELECT name FROM users WHERE username = ? LIMIT 1");
-                                if ($stmt->execute([$username])) {
-                                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                                    if (!empty($row['name'])) {
-                                        $display_name = htmlspecialchars($row['name']);
-                                    }
                                 }
                             }
                             ?>
@@ -222,17 +185,14 @@ $sell_orders = [
                             <div class="card-body">
                                 <h2><?php echo $greeting_message; ?></h2>
                                 <p>Use the sidebar to navigate through your tasks and features.</p>
+                                <?php if ($is_admin): ?>
+                                    <p><strong>Admin Mode:</strong> You have access to user registration and management tools.</p>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- <footer>
-                <div class="footer-area">
-                    <p>© Copyright 2025. All right reserved. Template by <a href="https://colorlib.com/wp/">Natsu</a>.</p>
-                </div>
-            </footer> -->
         </div>
         <!-- main content area end -->
     </div>
