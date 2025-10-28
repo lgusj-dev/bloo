@@ -83,7 +83,7 @@ $sell_orders = [
         <div class="sidebar-menu">
             <div class="sidebar-header">
                 <div class="logo">
-                    <a href="index.php"><img src="assets/images/icon/logo.png" alt="logo"></a>
+                    <a href="testing.php"><img src="assets/images/icon/logo.png" alt="logo"></a>
                 </div>
             </div>
             <div class="main-menu">
@@ -91,10 +91,10 @@ $sell_orders = [
                     <nav>
                         <ul class="metismenu" id="menu">
                             <li class="active">
-                                <a href="index.php" aria-expanded="true"><i class="ti-home"></i><span>Dashboard</span></a>
+                                <a href="testing.php" aria-expanded="true"><i class="ti-home"></i><span>Home</span></a>
                             </li>
                             <li>
-                                <a href="test.php" aria-expanded="true"><i class="ti-upload"></i><span>File Upload</span></a>
+                                <a href="test.php" aria-expanded="true"><i class="ti-upload"></i><span>Upload File</span></a>
                             </li>
                             <!-- Keep other sidebar items as in your original code -->
                         </ul>
@@ -150,9 +150,9 @@ $sell_orders = [
                 <div class="row align-items-center">
                     <div class="col-sm-6">
                         <div class="breadcrumbs-area clearfix">
-                            <h4 class="page-title pull-left">Dashboard</h4>
+                            <h4 class="page-title pull-left">Home</h4>
                             <ul class="breadcrumbs pull-left">
-                                <li><a href="index.php">Home</a></li>
+                                <li><a href="testing.php">Home</a></li>
                                 <li><span>Welcome</span></li>
                             </ul>
                         </div>
@@ -222,8 +222,8 @@ $sell_orders = [
             </div>
 
             <footer>
-                <div class="footer-area">
-                    <p>© Copyright 2025. All right reserved. Template by <a href="https://colorlib.com/wp/">Natsu</a>.</p>
+                <!-- <div class="footer-area">
+                    <p>© Copyright 2025. All right reserved. Template by <a href="https://colorlib.com/wp/">Natsu</a>.</p> -->
                 </div>
             </footer>
         </div>
