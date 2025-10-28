@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Verify password (hashed)
         if ($password === $row['password']) {
             $_SESSION['username'] = $username;
-            header("Location: index.php");
+            header("Location: testing.php");
             exit;
         } else {
             $error = "Invalid password.";
