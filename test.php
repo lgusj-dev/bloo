@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('db_connect.php');
+include('db_connect.php'); // your existing database connection
 
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
@@ -11,10 +11,9 @@ $username = $_SESSION['username'];
 
 // -------------------- IMAGE UPLOAD FUNCTION --------------------
 function uploadImage($file, $username) {
+    global $conn;
     $uploadDir = __DIR__ . "/assets/images/";
-    if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0755, true);
-    }
+    if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
 
     if (isset($file) && $file['error'] === UPLOAD_ERR_OK) {
         $tmpName = $file['tmp_name'];
@@ -40,7 +39,6 @@ function uploadImage($file, $username) {
         $destination = $uploadDir . $uniqueName;
 
         if (move_uploaded_file($tmpName, $destination)) {
-            global $conn;
             $stmt = $conn->prepare("INSERT INTO uploads (filename, username, upload_date) VALUES (?, ?, NOW())");
             $stmt->bind_param("ss", $uniqueName, $username);
             $stmt->execute();
@@ -50,179 +48,213 @@ function uploadImage($file, $username) {
         } else {
             echo "<script>alert('Error moving uploaded file.');</script>";
         }
-    } else if (isset($file['error']) && $file['error'] !== UPLOAD_ERR_NO_FILE) {
+    } elseif (isset($file['error']) && $file['error'] !== UPLOAD_ERR_NO_FILE) {
         echo "<script>alert('File upload error.');</script>";
     }
-
     return "";
 }
 
-// Handle form submit
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    if (isset($_FILES['task_image'])) {
-        uploadImage($_FILES['task_image'], $username);
-    } else {
-        echo "<script>alert('Please select a file to upload.');</script>";
-    }
+// -------------------- HANDLE FILE UPLOAD --------------------
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_FILES['task_image'])) {
+    uploadImage($_FILES['task_image'], $username);
 }
 
-// -------------------- GET USER UPLOADS --------------------
-global $conn;
-// $stmt = $conn->prepare("SELECT filename FROM uploads WHERE username = ? ORDER BY upload_date DESC");
-// $stmt->bind_param("s", $username);
-// $stmt->execute();
-// $result = $stmt->get_result();
-// $uploads = $result->fetch_all(MYSQLI_ASSOC);
-// $stmt->close();
-// ?>
+// -------------------- HANDLE FILE DELETE --------------------
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_file'])) {
+    $fileId = intval($_POST['delete_file_id']);
 
-<!DOCTYPE html>
+    $stmt = $conn->prepare("SELECT filename FROM uploads WHERE id = ?");
+    $stmt->bind_param("i", $fileId);
+    $stmt->execute();
+    $stmt->bind_result($filename);
+    if ($stmt->fetch()) {
+        $filePath = __DIR__ . "/assets/images/" . $filename;
+        if (file_exists($filePath)) unlink($filePath);
+    }
+    $stmt->close();
+
+    $stmt = $conn->prepare("DELETE FROM uploads WHERE id = ?");
+    $stmt->bind_param("i", $fileId);
+    $stmt->execute();
+    $stmt->close();
+
+    echo "<script>alert('File deleted successfully.'); window.location.href='test.php';</script>";
+    exit;
+}
+?>
+
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Dashboard - Welcome</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon.ico">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/themify-icons.css">
-    <link rel="stylesheet" href="assets/css/metisMenu.css">
-    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="assets/css/slicknav.min.css">
-    <link rel="stylesheet" href="assets/css/typography.css">
-    <link rel="stylesheet" href="assets/css/default-css.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/responsive.css">
-    <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
-    <style>
-        .upload-gallery {
-            margin-top: 30px;
-        }
-        .upload-gallery img {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            margin: 10px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>File Upload - Dashboard</title>
+<link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon.ico">
+<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="assets/css/font-awesome.min.css">
+<link rel="stylesheet" href="assets/css/themify-icons.css">
+<link rel="stylesheet" href="assets/css/metisMenu.css">
+<link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+<link rel="stylesheet" href="assets/css/slicknav.min.css">
+<link rel="stylesheet" href="assets/css/typography.css">
+<link rel="stylesheet" href="assets/css/default-css.css">
+<link rel="stylesheet" href="assets/css/styles.css">
+<link rel="stylesheet" href="assets/css/responsive.css">
 </head>
 <body>
-    <!-- page container area start -->
-    <div class="page-container">
-        <!-- sidebar menu area start -->
-        <div class="sidebar-menu">
-            <div class="sidebar-header">
-                <a href="testing.php"><h4>My Dashboard</h4></a>
-            </div>
-            <div class="main-menu">
-                <ul class="metismenu" id="menu">
-                    <li><a href="testing.php"><i class="ti-home"></i> <span>Home</span></a></li>
-                    <li><a href="test.php"><i class="ti-upload"></i> <span>File Upload</span></a></li>
-                </ul>
+<div class="page-container">
+    <!-- sidebar menu -->
+    <div class="sidebar-menu">
+        <div class="sidebar-header">
+            <div class="logo"><a href="test.php"><img src="assets/images/icon/logo.png" alt="logo"></a></div>
+        </div>
+        
+        <div class="main-menu">
+            <div class="menu-inner">
+                <nav>
+                    <ul class="metismenu" id="menu">
+                        <li><a href="testing.php" aria-expanded="true"><i class="ti-home"></i><span>Home</span></a></li>
+                        <li class="active"><a href="test.php" aria-expanded="true"><i class="ti-upload"></i><span>Upload File</span></a></li>
+                    </ul>
+                </nav>
             </div>
         </div>
-        <!-- sidebar menu area end -->
+    </div>
 
-        <!-- main content area start -->
+    <!-- main content area start -->
         <div class="main-content">
             <!-- header area start -->
             <div class="header-area">
                 <div class="row align-items-center">
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-sm-8 clearfix">
                         <div class="nav-btn pull-left">
                             <span></span>
                             <span></span>
                             <span></span>
+                            
+                        </div>
+                        <div class="search-box pull-left">
+                            <form action="#">
+                                <input type="text" name="search" placeholder="Search..." required>
+                                <i class="ti-search"></i>
+                            </form>
                         </div>
                     </div>
-                    <div class="col-md-6 clearfix">
+                    <div class="col-md-6 col-sm-4 clearfix">
                         <ul class="notification-area pull-right">
+                            <li id="full-view"><i class="ti-fullscreen"></i></li>
+                            <li id="full-view-exit"><i class="ti-zoom-out"></i></li>
                             <li class="dropdown">
-                                <i class="fa fa-envelope-o dropdown-toggle" data-toggle="dropdown"></i>
-                                <div class="dropdown-menu">
-                                    <p class="text-center">No new messages</p>
-                                </div>
+                                <i class="ti-bell dropdown-toggle" data-toggle="dropdown">
+                                    <span>2</span>
+                                </i>
+                                <!-- notifications content here -->
                             </li>
                             <li class="dropdown">
-                                <i class="fa fa-bell-o dropdown-toggle" data-toggle="dropdown"></i>
-                                <div class="dropdown-menu">
-                                    <p class="text-center">No new notifications</p>
-                                </div>
+                                <i class="fa fa-envelope-o dropdown-toggle" data-toggle="dropdown"><span>3</span></i>
+                                <!-- messages content here -->
+                            </li>
+                            <li class="settings-btn">
+                                <i class="ti-settings"></i>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
             <!-- header area end -->
-
-            <!-- page title area start -->
+<!-- page title area start -->
             <div class="page-title-area">
                 <div class="row align-items-center">
                     <div class="col-sm-6">
                         <div class="breadcrumbs-area clearfix">
-                            <h4 class="page-title pull-left">File Upload</h4>
+                            <h4 class="page-title pull-left">Upload File</h4>
                             <ul class="breadcrumbs pull-left">
-                                <li><a href="testing.php">Home</a></li>
-                                <li><span>File Upload</span></li>
+                                <li><a href="testing.php">Upload File</a></li>
+                                <li><span>Welcome</span></li>
                             </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 clearfix">
+                        <div class="user-profile pull-right">
+                            <img class="avatar user-thumb" src="assets/images/author/avatar.png" alt="avatar">
+                            <h4 class="user-name dropdown-toggle" data-toggle="dropdown"><?php echo htmlspecialchars($username); ?> <i class="fa fa-angle-down"></i></h4>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Message</a>
+                                <a class="dropdown-item" href="#">Settings</a>
+                                <a class="dropdown-item" href="login.php">Log Out</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- page title area end -->
 
-            <!-- main content inner start -->
-            <div class="main-content-inner">
-                <div class="row">
-                    <div class="col-12 mt-5">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="header-title">Upload your image</h4>
-                                <p>Welcome, <?php echo htmlspecialchars($username); ?>! Choose a file to upload:</p>
-                                <form method="post" enctype="multipart/form-data">
-                                    <div class="form-group">
-                                        <input type="file" name="task_image" class="form-control" required>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Upload</button>
-                                </form>
 
-                                <?php if(!empty($uploads)): ?>
-                                <div class="upload-gallery">
-                                    <h5>Your Uploaded Images</h5>
-                                    <?php foreach($uploads as $upload): ?>
-                                        <img src="assets/images/<?php echo htmlspecialchars($upload['filename']); ?>" alt="Uploaded Image">
-                                    <?php endforeach; ?>
+        <!-- page content -->
+        <div class="main-content-inner">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mt-5">
+                        <div class="card-body">
+                            <h4 class="header-title mb-3">Upload your image</h4>
+                            <form method="post" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <input type="file" name="task_image" required>
                                 </div>
-                                <?php endif; ?>
+                                <button type="submit" class="btn btn-primary">Upload</button>
+                            </form>
+
+                            <!-- uploaded files table -->
+                            <h4 class="mt-4">Uploaded Files</h4>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Filename</th>
+                                            <th>Uploaded By</th>
+                                            <th>Date</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $result = $conn->query("SELECT * FROM uploads");
+                                        while ($row = $result->fetch_assoc()):
+                                        ?>
+                                        <tr>
+                                            <td><?php echo htmlspecialchars($row['filename']); ?></td>
+                                            <td><?php echo htmlspecialchars($row['username']); ?></td>
+                                            <td><?php echo htmlspecialchars($row['upload_date']); ?></td>
+                                            <td>
+                                                <form method="post" style="display:inline;">
+                                                    <input type="hidden" name="delete_file_id" value="<?php echo $row['id']; ?>">
+                                                    <button type="submit" name="delete_file" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this file?');">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        <?php endwhile; ?>
+                                    </tbody>
+                                </table>
                             </div>
+
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- main content inner end -->
         </div>
-        <!-- main content area end -->
 
-        <!-- footer area start -->
-        <footer>
-            <div class="footer-area">
-                <p>© Copyright 2025. All right reserved.</p>
-            </div>
-        </footer>
-        <!-- footer area end -->
     </div>
-    <!-- page container area end -->
+</div>
 
-    <script src="assets/js/vendor/jquery-2.2.4.min.js"></script>
-    <script src="assets/js/popper.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/metisMenu.min.js"></script>
-    <script src="assets/js/jquery.slimscroll.min.js"></script>
-    <script src="assets/js/jquery.slicknav.min.js"></script>
-    <script src="assets/js/plugins.js"></script>
-    <script src="assets/js/scripts.js"></script>
+<!-- scripts -->
+<script src="assets/js/vendor/jquery-2.2.4.min.js"></script>
+<script src="assets/js/popper.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/owl.carousel.min.js"></script>
+<script src="assets/js/metisMenu.min.js"></script>
+<script src="assets/js/jquery.slimscroll.min.js"></script>
+<script src="assets/js/jquery.slicknav.min.js"></script>
+<script src="assets/js/plugins.js"></script>
+<script src="assets/js/scripts.js"></script>
 </body>
 </html>
