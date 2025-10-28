@@ -167,9 +167,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_file'])) {
                 <div class="row align-items-center">
                     <div class="col-sm-6">
                         <div class="breadcrumbs-area clearfix">
-                            <h4 class="page-title pull-left">Upload File</h4>
+                            <h4 class="page-title pull-left">Dashboard</h4>
                             <ul class="breadcrumbs pull-left">
-                                <li><a href="testing.php">Upload File</a></li>
+                                <li><a href="index.php">Home</a></li>
                                 <li><span>Welcome</span></li>
                             </ul>
                         </div>
@@ -177,7 +177,42 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_file'])) {
                     <div class="col-sm-6 clearfix">
                         <div class="user-profile pull-right">
                             <img class="avatar user-thumb" src="assets/images/author/avatar.png" alt="avatar">
-                            <h4 class="user-name dropdown-toggle" data-toggle="dropdown"><?php echo htmlspecialchars($username); ?> <i class="fa fa-angle-down"></i></h4>
+                            <?php
+                            // default to session username if DB lookup fails
+                            $display_name = htmlspecialchars($username);
+
+                            // Try common DB connection variables: $conn (mysqli), $mysqli (mysqli), $pdo (PDO)
+                            if (isset($conn) && $conn instanceof mysqli) {
+                                if ($stmt = $conn->prepare("SELECT name FROM users WHERE username = ? LIMIT 1")) {
+                                    $stmt->bind_param("s", $username);
+                                    $stmt->execute();
+                                    $stmt->bind_result($db_name);
+                                    if ($stmt->fetch() && $db_name) {
+                                        $display_name = htmlspecialchars($db_name);
+                                    }
+                                    $stmt->close();
+                                }
+                            } elseif (isset($mysqli) && $mysqli instanceof mysqli) {
+                                if ($stmt = $mysqli->prepare("SELECT name FROM users WHERE username = ? LIMIT 1")) {
+                                    $stmt->bind_param("s", $username);
+                                    $stmt->execute();
+                                    $stmt->bind_result($db_name);
+                                    if ($stmt->fetch() && $db_name) {
+                                        $display_name = htmlspecialchars($db_name);
+                                    }
+                                    $stmt->close();
+                                }
+                            } elseif (isset($pdo) && $pdo instanceof PDO) {
+                                $stmt = $pdo->prepare("SELECT name FROM users WHERE username = ? LIMIT 1");
+                                if ($stmt->execute([$username])) {
+                                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                                    if (!empty($row['name'])) {
+                                        $display_name = htmlspecialchars($row['name']);
+                                    }
+                                }
+                            }
+                            ?>
+                            <h4 class="user-name dropdown-toggle" data-toggle="dropdown"><?php echo $display_name; ?> <i class="fa fa-angle-down"></i></h4>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="#">Message</a>
                                 <a class="dropdown-item" href="#">Settings</a>
