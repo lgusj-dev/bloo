@@ -64,16 +64,23 @@ $sell_orders = [
     <title>Home - Welcome</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon.ico">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/themify-icons.css">
-    <link rel="stylesheet" href="assets/css/metisMenu.css">
-    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="assets/css/slicknav.min.css">
-    <link rel="stylesheet" href="assets/css/typography.css">
-    <link rel="stylesheet" href="assets/css/default-css.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/responsive.css">
+    <?php
+    // helper to return file mtime for cache-busting. Falls back to current time if file missing.
+    function _css_ver($relPath) {
+        $full = __DIR__ . DIRECTORY_SEPARATOR . $relPath;
+        return (file_exists($full)) ? filemtime($full) : time();
+    }
+    ?>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css?v=<?php echo _css_ver('assets/css/bootstrap.min.css'); ?>">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css?v=<?php echo _css_ver('assets/css/font-awesome.min.css'); ?>">
+    <link rel="stylesheet" href="assets/css/themify-icons.css?v=<?php echo _css_ver('assets/css/themify-icons.css'); ?>">
+    <link rel="stylesheet" href="assets/css/metisMenu.css?v=<?php echo _css_ver('assets/css/metisMenu.css'); ?>">
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css?v=<?php echo _css_ver('assets/css/owl.carousel.min.css'); ?>">
+    <link rel="stylesheet" href="assets/css/slicknav.min.css?v=<?php echo _css_ver('assets/css/slicknav.min.css'); ?>">
+    <link rel="stylesheet" href="assets/css/typography.css?v=<?php echo _css_ver('assets/css/typography.css'); ?>">
+    <link rel="stylesheet" href="assets/css/default-css.css?v=<?php echo _css_ver('assets/css/default-css.css'); ?>">
+    <link rel="stylesheet" href="assets/css/styles.css?v=<?php echo _css_ver('assets/css/styles.css'); ?>">
+    <link rel="stylesheet" href="assets/css/responsive.css?v=<?php echo _css_ver('assets/css/responsive.css'); ?>">
     <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 
@@ -91,10 +98,10 @@ $sell_orders = [
                     <nav>
                         <ul class="metismenu" id="menu">
                             <li class="active">
-                                <a href="index.php" aria-expanded="true"><i class="ti-home"></i><span>Home</span></a>
+                                <a href="testing.php" aria-expanded="true"><i class="ti-home"></i><span>Home</span></a>
                             </li>
                             <li>
-                                <a href="test.php" aria-expanded="true"><i class="ti-upload"></i><span>File Upload</span></a>
+                                <a href="test.php" aria-expanded="true"><i class="ti-upload"></i><span>Upload File</span></a>
                             </li>
                             <!-- Keep other sidebar items as in your original code -->
                         </ul>
@@ -152,7 +159,7 @@ $sell_orders = [
                         <div class="breadcrumbs-area clearfix">
                             <h4 class="page-title pull-left">Home</h4>
                             <ul class="breadcrumbs pull-left">
-                                <li><a href="index.php">Home</a></li>
+                                <li><a href="testing.php">Home</a></li>
                                 <li><span>Welcome</span></li>
                             </ul>
                         </div>
@@ -221,11 +228,11 @@ $sell_orders = [
                 </div>
             </div>
 
-            <footer>
+            <!-- <footer>
                 <div class="footer-area">
                     <p>© Copyright 2025. All right reserved. Template by <a href="https://colorlib.com/wp/">Natsu</a>.</p>
                 </div>
-            </footer>
+            </footer> -->
         </div>
         <!-- main content area end -->
     </div>

@@ -88,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_file'])) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>File Upload - Upload File</title>
+<title>Upload File - Upload File</title>
 <link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon.ico">
 <link rel="stylesheet" href="assets/css/bootstrap.min.css">
 <link rel="stylesheet" href="assets/css/font-awesome.min.css">
