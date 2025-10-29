@@ -4,20 +4,20 @@ include('db_connect.php'); // include your connection file
 $error = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Fetch user from database
-    $sql = "SELECT * FROM users WHERE username = '$username'";
-    $result = mysqli_query($conn, $sql);
-    if ($result === false) {
-        die("Database query error: " . mysqli_error($conn));
-    }
-    if (mysqli_num_rows($result) == 1) {
-        $row = mysqli_fetch_assoc($result);
+    // Fetch user from database using prepared statement
+    $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows == 1) {
+        $row = $result->fetch_assoc();
 
-        // Verify password (hashed)
-        if ($password === $row['password']) {
+        // Verify password using password_verify for hashed passwords
+        if (password_verify($password, $row['password'])) {
             $_SESSION['id'] = $row['id'];
 $_SESSION['username'] = $row['username'];
 $_SESSION['role'] = ($_SESSION['id'] == 1) ? 'admin' : 'user';
@@ -31,24 +31,6 @@ $_SESSION['role'] = ($_SESSION['id'] == 1) ? 'admin' : 'user';
         $error = "No user found.";
     }
 }
-
-
- // Example: Simple form handling (you can replace this with actual authentication logic)
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//    $username = $_POST['username'] ?? '';
-//    $password = $_POST['password'] ?? '';
-
-//     //Dummy credentials for example
-//    $valid_username = 'admin';
-//    $valid_password = 'password123';
-
-//     if ($username === $valid_username && $password === $valid_password) {
-//         $_SESSION['user'] = $username;
-//         header('Location: dashboard.php'); // Redirect to dashboard page
-//         exit;
-//     } else {
-//      $error = 'Invalid username or password.';
-//     }
 
 ?>
 <!doctype html>

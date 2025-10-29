@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             // ✅ Insert into database
             $stmt = $conn->prepare("INSERT INTO users (name, office, username, password) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("ssss", $fullname, $office, $email, $password);
+            $stmt->bind_param("ssss", $fullname, $office, $email, $hashed_password);
 
             if ($stmt->execute()) {
                 $success = "Account created successfully!";
