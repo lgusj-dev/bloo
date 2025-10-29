@@ -150,6 +150,26 @@
     max-width: 120px;
 }
 
+
+.sjlogo {
+    display: flex;                 /* put logo and text side by side */
+    align-items: center;           /* vertically center them */
+    gap: 15px;                     /* space between logo and text */
+}
+
+.sjlogo img {
+    width: 130px;                   /* adjust as needed */
+    height: auto;
+}
+
+.sjlogo h2 {
+    color: white;
+    font-size: 26px;
+    font-weight: bold;
+    margin: 0;
+    text-align: right;
+}
+
 .metismenu >li >a {
     padding-left: 32px!important;
 }
@@ -2309,7 +2329,7 @@ table.dataTable thead td {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    min-height: 100vh;
+    height: 100vh;
 }
 
 .login-box form {
@@ -2318,34 +2338,69 @@ table.dataTable thead td {
     max-width: 100%;
     background: #fff;
     border-radius: 3px;
+    height: 70vh;
+    
 }
 
 .login-form-head {
     text-align: center;
-    background: #8655FC;
+    background: #062676;
     padding: 50px;
 }
 
+.login-form-head1 {
+    text-align: center;
+    background: #062676;
+    padding: 50px;
+}
+
+.login-form-head1 h4 {
+    text-transform: uppercase;
+    font-weight: 500;
+    margin: 0;
+    color: #fff;
+    text-align: center;
+}
+
+.login-form-head {
+    display: flex;                     /* make logo + text side-by-side */
+    align-items: center;               /* vertically align center */
+    justify-content: space-between;    /* push logo left, text right */
+    background-color: #062676;         /* purple background */
+    padding: 20px 30px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.login-form-head .logo {
+    max-width: 100px;                   /* adjust size */
+    height: auto;
+}
+
 .login-form-head h4 {
-    letter-spacing: 0;
+    letter-spacing: 10px;
     text-transform: uppercase;
     font-weight: 600;
-    margin-bottom: 7px;
+    margin: 0;
     color: #fff;
+    text-align: right;
+    padding-left: 40px;
 }
+
 
 .login-form-head p {
     color: #fff;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 22px;
 }
 
 .login-form-body {
-    padding: 50px;
+    padding: 40px 60px;
 }
 
 .form-gp{
-    margin-bottom: 25px;
+    margin-top: 20px;
+    margin-bottom: 50px;
     position: relative;
 }
 
@@ -2394,6 +2449,60 @@ table.dataTable thead td {
 }
 
 .form-gp.has-error, .form-gp.has-error label, .form-gp.has-error input, .form-gp.has-error input::placeholder, .form-gp.has-error i {
+    color: var(--red);
+}
+
+.form-gp1{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-gp1 label {
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #b3b2b2;
+    -webkit-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.form-gp1.focused label {
+    top: -15px;
+    color: #7e74ff;
+}
+
+.form-gp1 input {
+    width: 100%;
+    height: 30px;
+    border: none;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.form-gp1 input::-webkit-input-placeholder {
+    color: #dad7d7;
+}
+
+.form-gp1 input::-moz-placeholder {
+    color: #dad7d7;
+}
+
+.form-gp1 input:-ms-input-placeholder {
+    color: #dad7d7;
+}
+
+.form-gp1 input:-moz-placeholder {
+    color: #dad7d7;
+}
+
+.form-gp1 i {
+    position: absolute;
+    right: 5px;
+    color: #7e74ff;
+    font-size: 16px;
+}
+
+.form-gp1.has-error, .form-gp.has-error label, .form-gp.has-error input, .form-gp.has-error input::placeholder, .form-gp.has-error i {
     color: var(--red);
 }
 
@@ -2547,6 +2656,7 @@ table.dataTable thead td {
     background: #fff;
     width: 100%;
     max-width: 500px;
+    height: inherit;
 }
 
 /*-------------------- END Login ------------------- */

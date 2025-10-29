@@ -55,8 +55,10 @@ $_SESSION['role'] = ($_SESSION['id'] == 1) ? 'admin' : 'user';
             <div class="login-box ptb--100">
                 <form method="POST" action="">
                     <div class="login-form-head">
-                        <h4>Sign In</h4>
-                        <p>Natsu</p>
+                        <div class="sjlogo">
+            <a href="testing.php"><img src="assets/images/icon/sjlogo.png" alt="logo"></a><h4>Sign In</h4>
+        </div>
+                        
                     </div>
                     <div class="login-form-body">
                         <?php if (!empty($error)): ?>

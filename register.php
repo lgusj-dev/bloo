@@ -82,9 +82,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <div class="container">
             <div class="login-box ptb--100">
                 <form method="POST" action="">
-                    <div class="login-form-head">
+                    <div class="login-form-head1">
                         <h4>Register a New Account</h4>
-                        <p>Only admins can create accounts.</p>
                     </div>
 
                     <div class="login-form-body">
@@ -94,13 +93,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             <div class="alert alert-success text-center"><?php echo $success; ?></div>
                         <?php endif; ?>
 
-                        <div class="form-gp">
+                        <div class="form-gp1">
                             <label for="exampleInputName1">Full Name</label>
                             <input type="text" id="exampleInputName1" name="fullname" required>
                             <i class="ti-user"></i>
                         </div>
 
-                        <div class="form-gp">
+                        <div class="form-gp1">
                             <label for="exampleInputOffice"></label>
                             <select id="exampleInputOffice" name="office" class="form-control" required>
                                 <option value="">Select Office</option>
@@ -112,19 +111,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             </select>
                         </div>
 
-                        <div class="form-gp">
+                        <div class="form-gp1">
                             <label for="exampleInputEmail1">Email address</label>
                             <input type="email" id="exampleInputEmail1" name="email" required>
                             <i class="ti-email"></i>
                         </div>
 
-                        <div class="form-gp">
+                        <div class="form-gp1">
                             <label for="exampleInputPassword1">Password</label>
                             <input type="password" id="exampleInputPassword1" name="password" required>
                             <i class="ti-lock"></i>
                         </div>
 
-                        <div class="form-gp">
+                        <div class="form-gp1">
                             <label for="exampleInputPassword2">Confirm Password</label>
                             <input type="password" id="exampleInputPassword2" name="confirm_password" required>
                             <i class="ti-lock"></i>
