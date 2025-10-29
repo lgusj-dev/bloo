@@ -109,9 +109,6 @@ $_SESSION['role'] = ($_SESSION['id'] == 1) ? 'admin' : 'user';
                                 </div>
                             </div> -->
                         </div>
-                        <div class="form-footer text-center mt-5">
-                            <p class="text-muted">Don't have an account? <a href="register.php">Sign up</a></p>
-                        </div>
                     </div>
                 </form>
             </div>
