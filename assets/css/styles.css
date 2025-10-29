@@ -2294,8 +2294,6 @@ table.dataTable thead td {
 
 /*-------------------- 22. Invoice ------------------- */
 
-.invoice-area {}
-
 .invoice-head {
     margin-bottom: 30px;
     border-bottom: 1px solid #efebeb;
@@ -2336,8 +2334,6 @@ table.dataTable thead td {
     font-weight: 700;
     margin-bottom: 5px;
 }
-
-.invoice-table {}
 
 .invoice-table .table-bordered td,
 .invoice-table .table-bordered th {

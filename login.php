@@ -67,12 +67,12 @@ $_SESSION['role'] = ($_SESSION['id'] == 1) ? 'admin' : 'user';
                             </div>
                         <?php endif; ?>
 
-                        <div class="form-gp">
+                        <div class="form-gp1">
                             <label for="exampleInputEmail1">Email address</label>
                             <input type="text" id="exampleInputEmail1" name="username" required>
                             <i class="ti-email"></i>
                         </div>
-                        <div class="form-gp">
+                        <div class="form-gp1">
                             <label for="exampleInputPassword1">Password</label>
                             <input type="password" id="exampleInputPassword1" name="password" required>
                             <i class="ti-lock"></i>
@@ -114,5 +114,39 @@ $_SESSION['role'] = ($_SESSION['id'] == 1) ? 'admin' : 'user';
     <script src="assets/js/jquery.slicknav.min.js"></script>
     <script src="assets/js/plugins.js"></script>
     <script src="assets/js/scripts.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Function to handle input state
+            function handleInputState($input) {
+                const $parent = $input.parent('.form-gp1');
+                if ($input.val()) {
+                    $parent.addClass('focused');
+                } else {
+                    $parent.removeClass('focused');
+                }
+            }
+
+            // Initialize all form fields
+            $('.form-gp1 input').each(function() {
+                handleInputState($(this));
+            });
+
+            // Handle focus events
+            $('.form-gp1 input').on('focus', function() {
+                $(this).parent('.form-gp1').addClass('focused');
+            });
+
+            // Handle blur events
+            $('.form-gp1 input').on('blur', function() {
+                handleInputState($(this));
+            });
+
+            // Handle input events
+            $('.form-gp1 input').on('input', function() {
+                handleInputState($(this));
+            });
+        });
+    </script>
 </body>
 </html>
