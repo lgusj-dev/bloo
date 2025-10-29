@@ -53,6 +53,77 @@
 
 
 /*------------------------- 1. Core Css -------------------*/
+/* -------------------- Responsive base (added) -------------------- */
+/* Make layout adapt better across devices: box-sizing, fluid type, responsive containers, images and tables */
+*, *::before, *::after { box-sizing: border-box; }
+:root {
+    --container-max: 1200px;
+}
+html {
+    /* Fluid base font: clamps between mobile and desktop */
+    font-size: clamp(14px, 1.2vw + 12px, 16px);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+/* Responsive container and helpers */
+.container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+img, svg, video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+/* Make forms and inputs fluid */
+.search-box input,
+.form-control,
+.input-form input,
+.custom-file-label {
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Tweak header and main layout on small screens */
+@media (max-width: 991.98px) {
+    .page-container { padding-left: 0; }
+    .sidebar-menu {
+        left: -280px; /* hide sidebar by default on small screens */
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+        width: 280px;
+        position: fixed;
+    }
+    /* when collapsed class is toggled, show the sidebar */
+    .sbar_collapsed .sidebar-menu {
+        left: 0;
+        transform: translateX(0);
+    }
+    .main-content { padding-left: 0; }
+    .page-title-area { padding: 0 1rem; }
+    .header-area { padding: 12px 1rem; }
+    .search-box input { width: 100%; max-width: 100%; }
+}
+
+@media (max-width: 575.98px) {
+    .page-title { font-size: 18px; }
+    .header-title { font-size: 16px; }
+    .card-body { padding: 1rem; }
+    .nav-btn { margin: 8px 12px 0 0; }
+    .metismenu li a { padding: 10px 12px; font-size: 14px; }
+}
+
+/* -------------------- End Responsive base -------------------- */
+
 .page-container {
     width: 100%;
     height: 100%;
@@ -152,22 +223,15 @@
 
 
 .sjlogo {
-    display: flex;                 /* put logo and text side by side */
-    align-items: center;           /* vertically center them */
-    gap: 15px;                     /* space between logo and text */
+    display: flex;            
+    align-items: center;
+    padding-left: 15px;
+    gap: 10px;                     
 }
 
 .sjlogo img {
-    width: 130px;                   /* adjust as needed */
+    width: 120px;                  
     height: auto;
-}
-
-.sjlogo h2 {
-    color: white;
-    font-size: 26px;
-    font-weight: bold;
-    margin: 0;
-    text-align: right;
 }
 
 .metismenu >li >a {
@@ -2317,7 +2381,6 @@ table.dataTable thead td {
 
 .login-area {
     background: #F3F8FB;
-    background-image: url('https://media.istockphoto.com/id/1496615445/photo/portrait-of-beautiful-happy-woman-smiling-during-sunset-outdoor.jpg?s=612x612&w=0&k=20&c=nEjFgLbdjElodDFk5Stm0gNyc3zVf1q8dchPQyTWcoM=');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -2332,13 +2395,27 @@ table.dataTable thead td {
     height: 100vh;
 }
 
+.login-box1 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
 .login-box form {
     margin: auto;
     width: 450px;
     max-width: 100%;
     background: #fff;
     border-radius: 3px;
-    height: 70vh;
+    
+}
+
+.login-box1 form {
+    margin: auto;
+    width: 600px;
+    max-width: 100%;
+    background: #fff;
+    border-radius: 3px;
     
 }
 
@@ -2378,7 +2455,7 @@ table.dataTable thead td {
 }
 
 .login-form-head h4 {
-    letter-spacing: 10px;
+    letter-spacing: 6px;
     text-transform: uppercase;
     font-weight: 600;
     margin: 0;
@@ -2404,25 +2481,36 @@ table.dataTable thead td {
     position: relative;
 }
 
-.form-gp label {
+.form-gp label, .form-gp1 label {
     position: absolute;
     left: 0;
     top: 0;
     color: #b3b2b2;
-    -webkit-transition: all 0.3s ease 0s;
-    transition: all 0.3s ease 0s;
+    pointer-events: none;
+    -webkit-transform-origin: 0 0;
+            transform-origin: 0 0;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
 }
 
-.form-gp.focused label {
-    top: -15px;
+.form-gp.focused label, .form-gp1.focused label {
+    top: -12px;
+    -webkit-transform: scale(0.85);
+            transform: scale(0.85);
     color: #7e74ff;
+    background: #fff;
+    padding: 0 5px;
 }
 
-.form-gp input {
+.form-gp input, .form-gp1 input {
     width: 100%;
     height: 30px;
     border: none;
     border-bottom: 1px solid #e6e6e6;
+    padding: 5px 0;
+    background: transparent;
+    transition: border-color 0.3s ease;
+    outline: none;
 }
 
 .form-gp input::-webkit-input-placeholder {
@@ -2452,31 +2540,46 @@ table.dataTable thead td {
     color: var(--red);
 }
 
-.form-gp1{
-    margin-top: 20px;
+.form-gp1 {
+    margin-top: 30px;
     margin-bottom: 20px;
     position: relative;
+    background: transparent;
 }
 
 .form-gp1 label {
     position: absolute;
     left: 0;
-    top: 0;
+    top: 50%;
+    transform: translateY(-50%);
     color: #b3b2b2;
-    -webkit-transition: all 0.3s ease 0s;
-    transition: all 0.3s ease 0s;
+    pointer-events: none;
+    transition: 0.2s ease all;
+    font-size: 14px;
 }
 
 .form-gp1.focused label {
-    top: -15px;
+    top: -20px;
+    font-size: 12px;
     color: #7e74ff;
+    transform: translateY(0);
 }
 
-.form-gp1 input {
+.form-gp1 input,
+.form-gp1 select {
     width: 100%;
-    height: 30px;
+    height: 40px;
     border: none;
     border-bottom: 1px solid #e6e6e6;
+    padding: 8px 0;
+    font-size: 14px;
+    background: transparent;
+    outline: none;
+}
+
+.form-gp1 input:focus,
+.form-gp1 select:focus {
+    border-bottom-color: #7e74ff;
 }
 
 .form-gp1 input::-webkit-input-placeholder {
@@ -2502,7 +2605,7 @@ table.dataTable thead td {
     font-size: 16px;
 }
 
-.form-gp1.has-error, .form-gp.has-error label, .form-gp.has-error input, .form-gp.has-error input::placeholder, .form-gp.has-error i {
+.form-gp1.has-error, .form-gp1.has-error label, .form-gp1.has-error input, .form-gp1.has-error input::placeholder, .form-gp1.has-error i {
     color: var(--red);
 }
 
@@ -2517,6 +2620,8 @@ table.dataTable thead td {
 .submit-btn-area button {
     width: 100%;
     height: 50px;
+    margin-bottom: 20px;
+    margin-top: 20px;
     border: none;
     background: #fff;
     color: #585b5f;

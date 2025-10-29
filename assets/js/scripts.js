@@ -123,13 +123,36 @@
     /*================================
     login form
     ==================================*/
-    $('.form-gp input').on('focus', function() {
-        $(this).parent('.form-gp').addClass('focused');
-    });
-    $('.form-gp input').on('focusout', function() {
-        if ($(this).val().length === 0) {
-            $(this).parent('.form-gp').removeClass('focused');
+    $(document).ready(function() {
+        // Function to handle input state
+        function handleInputState($input) {
+            const $parent = $input.parent('.form-gp1');
+            if ($input.val()) {
+                $parent.addClass('focused');
+            } else {
+                $parent.removeClass('focused');
+            }
         }
+
+        // Initialize all form fields
+        $('.form-gp1 input, .form-gp1 select').each(function() {
+            handleInputState($(this));
+        });
+
+        // Handle focus events
+        $('.form-gp1 input, .form-gp1 select').on('focus', function() {
+            $(this).parent('.form-gp1').addClass('focused');
+        });
+
+        // Handle blur events
+        $('.form-gp1 input, .form-gp1 select').on('blur', function() {
+            handleInputState($(this));
+        });
+
+        // Handle input/change events
+        $('.form-gp1 input, .form-gp1 select').on('input change', function() {
+            handleInputState($(this));
+        });
     });
 
     /*================================

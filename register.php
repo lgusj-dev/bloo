@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <div class="login-area">
         <div class="container">
-            <div class="login-box ptb--100">
+            <div class="login-box1 ptb--100">
                 <form method="POST" action="">
                     <div class="login-form-head1">
                         <h4>Register a New Account</h4>
@@ -94,8 +94,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         <?php endif; ?>
 
                         <div class="form-gp1">
-                            <label for="exampleInputName1">Full Name</label>
                             <input type="text" id="exampleInputName1" name="fullname" required>
+                            <label for="exampleInputName1">Full Name</label>
                             <i class="ti-user"></i>
                         </div>
 
@@ -112,20 +112,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         </div>
 
                         <div class="form-gp1">
-                            <label for="exampleInputEmail1">Email address</label>
                             <input type="email" id="exampleInputEmail1" name="email" required>
+                            <label for="exampleInputEmail1">Email address</label>
                             <i class="ti-email"></i>
                         </div>
 
                         <div class="form-gp1">
-                            <label for="exampleInputPassword1">Password</label>
                             <input type="password" id="exampleInputPassword1" name="password" required>
+                            <label for="exampleInputPassword1">Password</label>
                             <i class="ti-lock"></i>
                         </div>
 
                         <div class="form-gp1">
-                            <label for="exampleInputPassword2">Confirm Password</label>
                             <input type="password" id="exampleInputPassword2" name="confirm_password" required>
+                            <label for="exampleInputPassword2">Confirm Password</label>
                             <i class="ti-lock"></i>
                         </div>
 
@@ -142,9 +142,56 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </div>
     </div>
 
+    <!-- Essential Library Scripts -->
     <script src="assets/js/vendor/jquery-2.2.4.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
+
+    <!-- Form Handling Scripts -->
+    <script>
+        $(document).ready(function() {
+            // Debug check if jQuery is loaded
+            console.log('jQuery version:', $.fn.jquery);
+            
+            // Function to handle input state
+            function handleInputState($input) {
+                console.log('Handling input state for:', $input.attr('id'));
+                const $parent = $input.parent('.form-gp1');
+                if ($input.val()) {
+                    $parent.addClass('focused');
+                    console.log('Adding focused class');
+                } else {
+                    $parent.removeClass('focused');
+                    console.log('Removing focused class');
+                }
+            }
+
+            // Initialize all form fields
+            $('.form-gp1 input, .form-gp1 select').each(function() {
+                handleInputState($(this));
+            });
+
+            // Handle focus events
+            $('.form-gp1 input, .form-gp1 select').on('focus', function() {
+                console.log('Focus event on:', this.id);
+                $(this).parent('.form-gp1').addClass('focused');
+            });
+
+            // Handle blur events
+            $('.form-gp1 input, .form-gp1 select').on('blur', function() {
+                console.log('Blur event on:', this.id);
+                handleInputState($(this));
+            });
+
+            // Handle input/change events
+            $('.form-gp1 input, .form-gp1 select').on('input change', function() {
+                console.log('Input/change event on:', this.id);
+                handleInputState($(this));
+            });
+        });
+    </script>
+
+    <!-- Additional Plugins -->
     <script src="assets/js/owl.carousel.min.js"></script>
     <script src="assets/js/metisMenu.min.js"></script>
     <script src="assets/js/jquery.slimscroll.min.js"></script>

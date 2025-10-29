@@ -160,7 +160,8 @@ if (isset($_POST['delete_user'])) {
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $query = "SELECT id, name, office, username FROM users ORDER BY name";
+                                            // Show admin (id=1) first, then list users so newest are at the bottom
+                                            $query = "SELECT id, name, office, username FROM users ORDER BY CASE WHEN id = 1 THEN 0 ELSE 1 END, id ASC";
                                             $result = $conn->query($query);
                                             while ($row = $result->fetch_assoc()):
                                             ?>
