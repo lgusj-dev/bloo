@@ -89,40 +89,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_file'])) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Upload File - Upload File</title>
-<link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon.ico">
-<link rel="stylesheet" href="assets/css/bootstrap.min.css">
-<link rel="stylesheet" href="assets/css/font-awesome.min.css">
-<link rel="stylesheet" href="assets/css/themify-icons.css">
-<link rel="stylesheet" href="assets/css/metisMenu.css">
-<link rel="stylesheet" href="assets/css/owl.carousel.min.css">
-<link rel="stylesheet" href="assets/css/slicknav.min.css">
-<link rel="stylesheet" href="assets/css/typography.css">
-<link rel="stylesheet" href="assets/css/default-css.css">
-<link rel="stylesheet" href="assets/css/styles.css">
-<link rel="stylesheet" href="assets/css/responsive.css">
+<?php include('includes/css_links.php'); ?>
 </head>
 <body>
 <div class="page-container">
     <!-- sidebar menu -->
-    <div class="sidebar-menu">
-        <div class="sidebar-header">
-            <div class="logo"><a href="test.php"><img src="assets/images/icon/logo.png" alt="logo"></a></div>
-        </div>
-        
-        <div class="main-menu">
-            <div class="menu-inner">
-                <nav>
-                    <ul class="metismenu" id="menu">
-                        <li><a href="testing.php" aria-expanded="true"><i class="ti-home"></i><span>Home</span></a></li>
-                        <li class="active"><a href="test.php" aria-expanded="true"><i class="ti-upload"></i><span>Upload File</span></a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </div>
+    <?php include('includes/sidebar.php'); ?>
 
     <!-- main content area start -->
-        <div class="main-content">
+    <div class="main-content">
             <!-- header area start -->
             <div class="header-area">
                 <div class="row align-items-center">
@@ -169,8 +144,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_file'])) {
                         <div class="breadcrumbs-area clearfix">
                             <h4 class="page-title pull-left">Upload File</h4>
                             <ul class="breadcrumbs pull-left">
-                                <li><a href="index.php">Upload File</a></li>
-                                <li><span>Welcome</span></li>
+                                <li><a href="testing.php">Home</a></li>
+                                <li><span>Upload File</span></li>
                             </ul>
                         </div>
                     </div>
@@ -276,8 +251,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_file'])) {
                     </div>
                 </div>
             </div>
+            </div>
         </div>
-
+        <!-- main content area end -->
     </div>
 </div>
 

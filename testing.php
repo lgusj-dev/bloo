@@ -70,33 +70,7 @@ $greeting_message = $greetings[array_rand($greetings)];
 <body>
     <div class="page-container">
         <!-- sidebar menu area start -->
-        <div class="sidebar-menu">
-            <div class="sidebar-header">
-                <div class="logo">
-                    <a href="index.php"><img src="assets/images/icon/logo.png" alt="logo"></a>
-                </div>
-            </div>
-            <div class="main-menu">
-                <div class="menu-inner">
-                    <nav>
-                        <ul class="metismenu" id="menu">
-                            <li class="active">
-                                <a href="index.php" aria-expanded="true"><i class="ti-home"></i><span>Home</span></a>
-                            </li>
-                            <li>
-                                <a href="test.php" aria-expanded="true"><i class="ti-upload"></i><span>Upload File</span></a>
-                            </li>
-                            <?php if ($is_admin): ?>
-                            <li>
-                                <a href="register.php" aria-expanded="true"><i class="ti-user"></i><span>Register</span></a>
-                            </li>
-                            <?php endif; ?>
-                            <!-- Add more sidebar items as needed -->
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </div>
+        <?php include('includes/sidebar.php'); ?>
         <!-- sidebar menu area end -->
 
         <!-- main content area start -->
@@ -143,7 +117,7 @@ $greeting_message = $greetings[array_rand($greetings)];
                         <div class="breadcrumbs-area clearfix">
                             <h4 class="page-title pull-left">Home</h4>
                             <ul class="breadcrumbs pull-left">
-                                <li><a href="index.php">Home</a></li>
+                                <li><a href="testing.php">Home</a></li>
                                 <li><span>Welcome</span></li>
                             </ul>
                         </div>
