@@ -180,7 +180,7 @@ img, svg, video {
     height: 100vh;
     width: 280px;
     overflow: hidden;
-    background: #303641;
+    background: #062676;
     box-shadow: 2px 0 32px rgba(0, 0, 0, 0.05);
     -webkit-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
@@ -210,8 +210,8 @@ img, svg, video {
 
 .sidebar-header {
     padding: 19px 32px 20px;
-    background: #303641;
-    border-bottom: 1px solid #343e50;
+    background: #04194f;
+    border-bottom: 1px solid #00FFFF;
 }
 .sidebar-menu .logo{
     text-align: center;
@@ -249,7 +249,7 @@ img, svg, video {
 }
 
 .metismenu li a i {
-    color: #6a56a5;
+    color: #00FFFF;
     -webkit-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
 }
@@ -292,7 +292,7 @@ img, svg, video {
 .metismenu >li:hover>a,
 .metismenu >li.active>a {
     color: #fff;
-    background: #343942;
+    background: #073099;
 }
 
 .metismenu li:hover>a,
@@ -770,7 +770,7 @@ ul.breadcrumbs {
     display: block;
     font-size: 14px;
     font-weight: 400;
-    color: #7801ff;
+    color: #062676;
     letter-spacing: 0;
     margin-right: 16px;
     position: relative;
@@ -800,8 +800,8 @@ ul.breadcrumbs {
             align-items: center;
     -ms-flex-wrap: wrap;
         flex-wrap: wrap;
-    background: -webkit-linear-gradient(left, #8914fe 0%, #8063f5 100%);
-    background: linear-gradient(to right, #8914fe 0%, #8063f5 100%);
+    background: -webkit-linear-gradient(left, #062676 0%, #00FFFF 100%);
+    background: linear-gradient(to right, #062676 0%, #00FFFF 100%);
     padding: 17px 38px;
     position: relative;
 }
@@ -882,7 +882,7 @@ ul.breadcrumbs {
 
 .user-profile .dropdown-menu a:hover {
     background: #f8f9fa;
-    color: #2942fa;
+    color: #062676;
 }
 
 /*-------------------- END Page Title Area -------------------*/
@@ -1319,7 +1319,7 @@ table.dbkit-table tr td {
 }
 
 .pagination_area ul li a:hover {
-    background: #8553fa;
+    background: #062676;
     color: #fff;
 }
 
@@ -1782,8 +1782,8 @@ table.dbkit-table tr td {
 }
 
 .gradiant-bg .card-header a {
-    background-image: -webkit-linear-gradient(top left, #8914fe, #8160f6);
-    background-image: linear-gradient(to bottom right, #8914fe, #8160f6);
+    background-image: -webkit-linear-gradient(top left, #062676, #00FFFF);
+    background-image: linear-gradient(to bottom right, #062676, #00FFFF);
     color: #fff;
 }
 
@@ -2360,7 +2360,7 @@ table.dataTable thead td {
     display: inline-block;
     font-size: 15px;
     color: #fff;
-    background: #815ef6;
+    background: #062676;
     padding: 12px 19px;
     border-radius: 3px;
     text-transform: capitalize;
@@ -2371,7 +2371,7 @@ table.dataTable thead td {
 }
 
 .invoice-buttons a:hover {
-    background: #574494;
+    background: #062676;
 }
 
 /*-------------------- END Invoice ------------------- */
@@ -2774,7 +2774,7 @@ table.dataTable thead td {
 }
 
 .prc-head h4 {
-    background: #805ff5;
+    background: #062676;
     color: #fff;
     padding: 28px;
     letter-spacing: 0;
@@ -2846,7 +2846,7 @@ table.dataTable thead td {
 .error-content h2 {
     font-size: 98px;
     font-weight: 800;
-    color: #686cdc;
+    color: #062676;
     margin-bottom: 28px;
     text-shadow: -3px -3px 0 #ffffff, 3px -3px 0 #ffffff, -3px 3px 0 #ffffff, 3px 3px 0 #ffffff, 4px 4px 0 #6569dc, 5px 5px 0 #6569dc, 6px 6px 0 #6569dc, 7px 7px 0 #6569dc;
     font-family: 'lato', sans-serif;
@@ -2933,7 +2933,7 @@ table.dataTable thead td {
 }
 
 .offset-menu-tab li a.active {
-    color: #853bfa;
+    color: #062676;
 }
 
 .offset-menu-tab li a:before {
@@ -2942,7 +2942,7 @@ table.dataTable thead td {
     bottom: 0;
     height: 5px;
     width: 100%;
-    background: #853bfa;
+    background: #062676;
     border-radius: 30px;
     -webkit-transition: all 0.3s cubic-bezier(0.91, 0.31, 0.31, 0.92) 0s;
     transition: all 0.3s cubic-bezier(0.91, 0.31, 0.31, 0.92) 0s;
