@@ -10,7 +10,7 @@ if (!isset($_SESSION['id'])) {
 
 // ✅ Ensure only admin can access
 if ($_SESSION['id'] != 1) {
-    header("Location: test.php");
+    header("Location: file_upload.php");
     exit;
 }
 
@@ -42,7 +42,7 @@ if (isset($_GET['delete'])) {
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $stmt->close();
-    header("Location: admin_test.php");
+    header("Location: test_admin.php");
     exit;
 }
 
@@ -74,7 +74,7 @@ $result = $conn->query("SELECT * FROM uploads ORDER BY id DESC");
     <div class="bg-dark text-white p-3" style="width:250px; height:100vh;">
         <h4 class="mb-4">Admin Panel</h4>
         <ul class="nav flex-column">
-            <li class="nav-item"><a href="admin_test.php" class="nav-link text-white">Dashboard</a></li>
+            <li class="nav-item"><a href="test_admin.php" class="nav-link text-white">Dashboard</a></li>
             <li class="nav-item"><a href="register.php" class="nav-link text-white">Register</a></li>
             <li class="nav-item"><a href="logout.php" class="nav-link text-white">Logout</a></li>
         </ul>

@@ -10,7 +10,7 @@ if (!isset($_SESSION['id'])) {
 
 // ✅ Redirect if not admin (only ID 1 can access)
 if ($_SESSION['id'] != 1) {
-    header("Location: testing.php");
+    header("Location: home.php");
     exit;
 }
 
@@ -109,7 +109,7 @@ if (isset($_POST['delete_user'])) {
                         <div class="breadcrumbs-area clearfix">
                             <h4 class="page-title pull-left">User Management</h4>
                             <ul class="breadcrumbs pull-left">
-                                <li><a href="testing.php">Home</a></li>
+                                <li><a href="home.php">Home</a></li>
                                 <li><span>Users</span></li>
                             </ul>
                         </div>

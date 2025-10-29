@@ -134,7 +134,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         </div>
 
                         <div class="form-footer text-center mt-5">
-                            <p class="text-muted"><a href="testing.php">← Back to Home</a></p>
+                            <p class="text-muted"><a href="home.php">← Back to Home</a></p>
                         </div>
                     </div>
                 </form>

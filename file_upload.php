@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_file'])) {
     $stmt->execute();
     $stmt->close();
 
-    echo "<script>alert('File deleted successfully.'); window.location.href='test.php';</script>";
+    echo "<script>alert('File deleted successfully.'); window.location.href='file_upload.php';</script>";
     exit;
 }
 ?>
@@ -88,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_file'])) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Upload File - Upload File</title>
+<title>Upload File</title>
 <?php include('includes/css_links.php'); ?>
 </head>
 <body>
@@ -144,7 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_file'])) {
                         <div class="breadcrumbs-area clearfix">
                             <h4 class="page-title pull-left">Upload File</h4>
                             <ul class="breadcrumbs pull-left">
-                                <li><a href="testing.php">Home</a></li>
+                                <li><a href="home.php">Home</a></li>
                                 <li><span>Upload File</span></li>
                             </ul>
                         </div>

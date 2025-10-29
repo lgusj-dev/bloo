@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $_SESSION['username'] = $row['username'];
 $_SESSION['role'] = ($_SESSION['id'] == 1) ? 'admin' : 'user';
 
-            header("Location: testing.php");
+            header("Location: home.php");
             exit;
         } else {
             $error = "Invalid password.";
@@ -55,9 +55,9 @@ $_SESSION['role'] = ($_SESSION['id'] == 1) ? 'admin' : 'user';
             <div class="login-box ptb--100">
                 <form method="POST" action="">
                     <div class="login-form-head">
-                        <div class="sjlogo">
-            <a href="testing.php"><img src="assets/images/icon/sjlogo.png" alt="logo"></a><h4>Sign In</h4>
-        </div>
+                                    <div class="sjlogo">
+                        <a href="home.php"><img src="assets/images/icon/sjlogo.png" alt="logo"></a><h4>Sign In</h4>
+                    </div>
                         
                     </div>
                     <div class="login-form-body">

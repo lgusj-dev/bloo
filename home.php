@@ -45,7 +45,7 @@ $greeting_message = $greetings[array_rand($greetings)];
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Home - Welcome</title>
+    <title>Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon.ico">
     <?php
@@ -117,7 +117,7 @@ $greeting_message = $greetings[array_rand($greetings)];
                         <div class="breadcrumbs-area clearfix">
                             <h4 class="page-title pull-left">Home</h4>
                             <ul class="breadcrumbs pull-left">
-                                <li><a href="testing.php">Home</a></li>
+                                <li><a href="home.php">Home</a></li>
                                 <li><span>Welcome</span></li>
                             </ul>
                         </div>
